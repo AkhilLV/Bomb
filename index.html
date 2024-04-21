@@ -66,8 +66,18 @@
 
       startButton.addEventListener("click", startTimer);
 
-      const handleSubmit = (e) => {
-        if (input.value === "1234") {
+      const handleSubmit = async (e) => {
+        const res = await fetch("http://localhost:3000/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code: input.value }),
+        });
+
+        const resJson = await res.json();
+
+        if (resJson.message) {
           Toastify({
             text: "Correct Code! You have successfully completed the challenge!",
             duration: 40000,
@@ -90,7 +100,8 @@
             position: "center", // `left`, `center` or `right`
             stopOnFocus: true, // Prevents dismissing of toast on hover
             style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
+              background:
+                "linear-gradient(49deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%);",
             },
           }).showToast();
         }
