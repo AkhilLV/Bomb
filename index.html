@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <p class="timer">30:00</p>
+    <button>Start</button>
+
+    <div class="code">
+      <label for=""
+        >Enter the codes you got from the previous four systems in order</label
+      >
+      <input type="text" />
+
+      <button onClick="handleSubmit(event)">Submit</button>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <script>
+      const timer = document.querySelector("p");
+      const startButton = document.querySelector("button");
+      const code = document.querySelector(".code");
+      code.style.display = "none";
+
+      const input = document.querySelector("input");
+
+      let time = 30 * 60; // minutes * seconds
+
+      function updateTimer() {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+
+        timer.textContent = `${minutes}:${seconds}`;
+      }
+
+      let intervalId;
+      function startTimer() {
+        code.style.display = "flex";
+        startButton.disabled = true;
+
+        intervalId = setInterval(() => {
+          if (time <= 0) {
+            clearInterval();
+            code.remove();
+
+            return;
+          }
+
+          time--;
+          updateTimer();
+        }, 1000);
+      }
+
+      startButton.addEventListener("click", startTimer);
+
+      const handleSubmit = (e) => {
+        if (input.value === "1234") {
+          Toastify({
+            text: "Correct Code! You have successfully completed the challenge!",
+            duration: 40000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+          }).showToast();
+
+          clearInterval(intervalId);
+        } else {
+          Toastify({
+            text: "Wrong Code! Try again!",
+            duration: 3000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+          }).showToast();
+        }
+      };
+    </script>
+  </body>
+</html>
