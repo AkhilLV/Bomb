@@ -9,7 +9,7 @@ app.use(express.json());
 app.post("/verify", (req, res) => {
   const code = req.body.code;
 
-  const validCodes = ["1234", "5678", "9101"];
+  const validCodes = ["712380", "853159", "13", "69", "99"];
 
   if (validCodes.includes(code)) {
     res.send({ message: true });
